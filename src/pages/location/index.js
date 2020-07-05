@@ -9,6 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 const Location = () => {
 
   const [ufs, setUfs] = useState(false);
+  const [city, setCities] = useState(false);
 
   const navigation = useNavigation();
 
@@ -68,13 +69,10 @@ const Location = () => {
                           {label: 'Novo Hamburgo', value: 'novoHamburgo'},
                           {label: 'São Leopoldo', value: 'saoLeopoldo'},
                         ]}
-
-          // items={ufs.map(uf => (
-          //   [{label: {uf}, value: {uf}}]))}
                         containerStyle={{height: 40, width: 250}}
                         dropDownStyle={{backgroundColor: '#fafafa'}}
-                        onChangeItem={ufs => this.setState({
-                          country: item.value
+                        onChangeItem={city => this.setState({
+                          country: city.value
                         })}
                         placeholder="Selecione..."/>
 

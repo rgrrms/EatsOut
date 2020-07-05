@@ -1,10 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import {Image, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const ListRestaurant = () => {
-
   const navigation = useNavigation();
 
   function navigateToRestaurant(dado) {

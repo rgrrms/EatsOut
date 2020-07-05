@@ -1,16 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import {StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, FlatList, Image} from "react-native";
-import { RadioButton } from 'react-native-paper';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/FontAwesome";
+import DatePicker from "react-native-datepicker";
 
 const Restaurant = () => {
-  const [value, setValue] = React.useState('first');
+  const [value, setValue] = useState();
+  const [date, setDate] = useState();
   const route = useRoute();
+  const navigation = useNavigation();
 
   const dado = route.params.dado;
   console.log(dado);
   console.log(dado.name);
+
+  function navigateToMenu() {
+    navigation.navigate('Menu');
+  }
 
   return (
     <ScrollView>
@@ -37,7 +43,28 @@ const Restaurant = () => {
         <Image style={styles.logo} source={require('../../../assets/splash.png')} />
         <Text style={styles.description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
         <TouchableOpacity style={styles.menu}>
-          <Text style={styles.textMenu}>DATA</Text>
+          <DatePicker style={styles.date}
+                      date={date}
+                      mode="date"
+                      placeholder="DATA"
+                      format="YYYY-MM-DD"
+                      minDate="2020-06-01"
+                      maxDate="2022-06-01"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      showIcon={false}
+                      customStyles={{
+                        dateInput: {
+                        },
+                        placeholderText: {
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                          color: '#000',
+                          textAlign: 'left',
+
+                        }
+                      }}
+                      onDateChange={(date) => {this.setState({date: date})}}/>
           <Icon name={'arrow-circle-right'} size={40} color="#ffc909" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
@@ -56,7 +83,7 @@ const Restaurant = () => {
           <Text style={styles.textMenu}>MESA</Text>
           <Icon name={'arrow-circle-right'} size={40} color="#ffc909" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reservation}>
+        <TouchableOpacity style={styles.reservation} onPress={() => navigateToMenu()}>
           <Text style={styles.textButton}>RESERVAR</Text>
         </TouchableOpacity>
       </View>
@@ -174,6 +201,10 @@ const styles = StyleSheet.create({
   textMenu: {
     fontWeight: 'bold',
     fontSize: 20
+  },
+
+  date: {
+    width: 260,
   },
 
   reservation: {
