@@ -1,9 +1,10 @@
 import React, { useEffect, useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Picker, Image} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, Picker, Image, TextInput} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useForm, Controller } from "react-hook-form";
 
 const Location = () => {
 
@@ -21,11 +22,17 @@ const Location = () => {
 
   useEffect(() => {
     axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
-      const uf = response.data.map((uf) => uf.sigla);
+      const uf = response.data.map((uf) => ({
+        "label": uf.sigla,
+        "value": uf.sigla
+      }));
       console.log(uf)
       setUfs(uf);
     });
   }, []);
+
+  const { control, handleSubmit, errors } = useForm();
+
 
   return (
     <View style={styles.container}>
@@ -35,20 +42,25 @@ const Location = () => {
       </Text>
       <View style={styles.card}>
         <Text style={styles.letter}>ESTADO:</Text>
-        <DropDownPicker style={styles.drop}
-                        items={[ufs]}
-          // items = { [
-          //   this.data.ufs.map(uf => { label : {uf} })
-          // ] }
-
-          // items={ufs.map(uf => (
-          //   [{label: {uf}, value: {uf}}]))}
-                        containerStyle={{height: 40,  width: 250}}
-                        dropDownStyle={{backgroundColor: '#fafafa'}}
-                        onChangeItem={ufs => this.setState({
-                          country: item.value
-                        })}
-                        placeholder="Selecione..."/>
+        <Controller
+          control={control}
+          render={({ onChange, onBlur, value }) => (
+            <DropDownPicker style={styles.drop}
+                            items={[(ufs)]}
+                            containerStyle={{height: 40,  width: 250}}
+                            dropDownStyle={{backgroundColor: '#fafafa'}}
+                            onChangeItem={ufs => this.setState({
+                              country: ufs.value
+                            })}
+                            placeholder="Selecione..."
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}/>
+          )}
+          name="uf"
+          rules={{ required: true }}
+          defaultValue=""
+        />
 
         <Text style={styles.letter}>CIDADE:</Text>
         <DropDownPicker style={styles.drop}
