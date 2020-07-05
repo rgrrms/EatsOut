@@ -16,11 +16,11 @@ e para rodar é só utilizar o comando a seguir:
 ### `npm start`
 
 
-######OBS
+#####OBS
 
-Apis utilizadas: 
+APIs utilizadas: 
 
-Api do IBGE para buscar as informações dos estados e cidades
+API do IBGE para buscar as informações dos estados e cidades
 https://servicodados.ibge.gov.br/api/v1/localidades/estados
 
 
